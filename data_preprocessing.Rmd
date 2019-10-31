@@ -1,0 +1,58 @@
+---
+title: "Data_Preprocessing"
+author: "Terence Lau"
+date: "5/11/2019"
+output: html_document
+---
+
+# data preprocessing 
+```{R}
+acc <- read.csv("data/ACC_AUX.CSV", header = T)
+per <- read.csv("data/PER_AUX.CSV", header = T)
+veh <- read.csv("data/VEH_AUX.CSV", header = T)
+
+head(acc)
+head(per)
+head(veh)
+
+
+# check if there is NA values 
+sum(is.na(acc))
+sum(is.na(per))
+sum(is.na(veh))
+
+dim(acc)
+dim(per)
+dim(veh)
+
+# There more row in person-set and vehicle-set 
+
+# Check if we can merge these three data-set 
+
+length(unique(acc[c("YEAR","ST_CASE")])) == length(unique(per[c("YEAR","ST_CASE")])) 
+length(unique(per[c("YEAR","ST_CASE")])) == length(unique(veh[c("YEAR","ST_CASE")]))
+length(unique(acc[c("YEAR","ST_CASE")])) == length(unique(veh[c("YEAR","ST_CASE")]))
+
+# the outputs are "TRUE", That means we can merge the three data set into one data set and the keys are "YEAR" & "ST_CASE"(case NO.)
+```
+
+
+```{R}
+colnames(acc) <- c("YEAR", "STATE", "CASE_NO", "COUNTY", "FATALITY_COUNT", "INJURY_TYPE", "NHTSA_REGION", "RURAL_URBAN", "INTERSTATE", "RELATION_TO_ROAD", "INTERSECTION", "ROAD_FUNC_CLASS", "JUNCTION", "MANNER_OF_COLLISION", "TIME_OF_DAY", "DAY_OF_WEEK", "CRASH_TYPE", "LARGE_TRUCK", "MOTORCYCLE", "SPEEDING", "PEDESTRIAN", "A_PED_F", "PEDALCYCLIST", "A_PEDAL_F", "ROLLOVER", "POLICE_PURSUIT", "POSITIVE_BAC", "YOUNG_15_19", "YOUNG_16_19", "YOUNG_15_20", "YOUNG_16_20", "OLDER_DRIVER", "YOUNG_21_24", "YOUNG_16_24", "ROADWAY_DEPARTURE", "HIT_AND_RUN", "DISTRACTED", "DROWSY")
+
+colnames(per) <- c("AGE_GRP_1", "AGE_GRP_2", "AGE_GRP_3", "AGE_GRP_4", "AGE_GRP_5", "AGE_GRP_6", "AGE_GRP_7", "AGE_GRP_8", "AGE_GRP_9", "CASE_NO", "VEHICLE_NO", "PERSON_NO", "YEAR", "PERSON_TYPE", "RESTRAINT_USE", "ALCOHOL_TESTING", "HISPANIC", "RACE", "RACE_HISPANIC", "EJECTION", "PERSON_INJURY_TYPE", "NON_MOTORIST_LOCATION")
+
+colnames(veh) <- c("")
+
+```
+
+Removing NA’s
+We then continued to clean the data by omitting any possible N/A entries in both the accident dataset and the auxiliary person dataset before exploring them.
+
+```{R}
+accident <- na.omit(acc)
+per <- na.omit(per)
+```
+
+
+
